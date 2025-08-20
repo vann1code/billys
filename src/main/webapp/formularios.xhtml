@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:head>
+    <title>Componentes</title>
+</h:head>
+<h:body>
+    <h:outputText value="Componentes de Formulários"/>
+    <h:form>
+        <h:panelGrid columns="2">
+            <h:outputLabel value="Nome:"/>
+            <h:inputText maxlength="30" size="30"/>
+
+            <h:outputLabel value="Senha:"/>
+            <h:inputSecret maxlength="7" size="30"/>
+
+            <h:outputLabel value="Mensagem:"/>
+            <h:inputTextarea cols="30" row="5"/>
+
+            <h:outputLabel value="Hobbies:"/>
+            <h:selectManyCheckbox>
+                <f:selectItem itemValue="E" itemLabel="Esportes"/>
+                <f:selectItem itemValue="F" itemLabel="Filmes"/>
+                <f:selectItem itemValue="V" itemLabel="Viagens"/>
+            </h:selectManyCheckbox>
+
+            <h:outputLabel value="Estado Civil:"/>
+            <h:selectOneRadio>
+                <f:selectItem itemValue="C" itemLabel="Casado"/>
+                <f:selectItem itemValue="D" itemLabel="Divorciado"/>
+                <f:selectItem itemValue="S" itemLabel="Solteiro"/>
+            </h:selectOneRadio>
+
+            <h:outputLabel value="Estado:"/>
+            <h:selectOneMenu>
+                <f:selectItem itemValue="SP" itemLabel="São Paulo"/>
+                <f:selectItem itemValue="MG" itemLabel="Minas Gerais"/>
+                <f:selectItem itemValue="GO" itemLabel="Goiás"/>
+            </h:selectOneMenu>
+
+        </h:panelGrid>
+
+        <h:panelGrid columns="4">
+            <h:commandButton value="Salvar"/>
+            <h:commandButton value="Editar"/>
+            <h:commandButton value="Cancelar"/>
+            <h:commandButton value="Fechar"/>
+            <h:commandLink value="Voltar" action="menu"/>
+
+        </h:panelGrid>
+    </h:form>
+
+</h:body>
+
+</html>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:head>
+    <title>Navegação</title>
+</h:head>
+<h:body>
+    <h:form>
+        <h:panelGrid columns="2">
+            <h:outputLabel value="Código"/>
+            <h:inputText maxlength="20" size="15"/>
+            <h:outputLabel value="Produto"/>
+            <h:inputText maxlength="20" size="15"/>
+            <h:outputLabel value="Categoria"/>
+            <h:inputText maxlength="20" size="15"/>
+            <h:outputLabel value="Descrição"/>
+            <h:inputText maxlength="30" size="15"/>
+        </h:panelGrid>
+
+        <h:panelGrid columns="2">
+            <h:commandButton value="Salvar"/>
+            <h:commandButton value="Voltar" action="menu"/>
+        </h:panelGrid>
+    </h:form>
+</h:body>
+</html>
