@@ -2,17 +2,20 @@
 <persistence xmlns="https://jakarta.ee/xml/ns/persistence"
              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
              xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence https://jakarta.ee/xml/ns/persistence/persistence_3_1.xsd"
-             version="3.1">
+             version="3.0">
 
-    <persistence-unit name="billyPU" transaction-type="RESOURCE_LOCAL">
+    <persistence-unit name="billyPU" transaction-type="JTA">
+
+        <jta-data-source>java:jboss/datasources/BillyDS</jta-data-source>
+
         <class>br.com.code.billys.model.Usuarios</class>
+
         <properties>
-            <property name="jakarta.persistence.jdbc.url" value="jdbc:mysql://127.0.0.1:3306/vanni_schema"/>
-            <property name="jakarta.persistence.jdbc.user" value="vanni"/>
-            <property name="jakarta.persistence.jdbc.password" value="billy1009"/>
-            <property name="jakarta.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
             <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL8Dialect"/>
             <property name="jakarta.persistence.schema-generation.database.action" value="update"/>
+
+            <property name="hibernate.show_sql" value="true"/>
+            <property name="hibernate.format_sql" value="true"/>
         </properties>
     </persistence-unit>
 

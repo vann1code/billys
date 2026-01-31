@@ -11,8 +11,15 @@
 
 <h:body>
     <p:card style="width: 90%; margin: 20px auto;">
-        <f:facet name="title">
-            Usuários Cadastrados
+        <f:facet name="header">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+
+
+                    <span>Usuários Cadastrados</span>
+
+                    <p:button value="Novo Usuário" outcome="cadastro_usuario" icon="pi pi-plus" />
+
+            </div>
         </f:facet>
 
         <p:dataTable value="#{usuarioBean.usuarios}" var="usuario"
