@@ -22,28 +22,63 @@ public class UsuarioBean implements Serializable {
     // Este objeto vai receber os dados da tela
     private Usuarios usuario = new Usuarios();
 
+    // Variável para capturar o ID que vem da URL
+    private Long idSelecionado;
+
     // -- AÇÕES --
 
-    @Transactional // O Container abre e fecha a transação pra você
+    // O método salvar agora serve pros dois (Insert e Update)
+    @Transactional
     public String salvar() {
         try {
-            // Persiste o objeto no banco
-            em.persist(usuario);
+            if (usuario.getId() == null) {
+                em.persist(usuario); // Cria novo
+            } else {
+                em.merge(usuario);   // Atualiza existente
+            }
 
-            // Limpa o objeto para um próximo cadastro (opcional)
+            // Limpa tudo
             usuario = new Usuarios();
-
-            // Recarrega a lista para mostrar o novo usuário se voltar pra tabela
+            idSelecionado = null;
             listaUsuarios = null;
 
-            // Retorna a string de navegação para voltar à lista (redirecionando)
-            // O "?faces-redirect=true" é um padrão para limpar a URL do navegador
             return "usuario?faces-redirect=true";
         } catch (Exception e) {
-            e.printStackTrace(); // Em produção, usaríamos mensagens de erro na tela
-            return null; // Fica na mesma tela se der erro
+            e.printStackTrace();
+            return null;
         }
     }
+
+    // Metodo chamado quando a tela de cadastro abrir
+    public void carregarCadastro() {
+        if (idSelecionado != null) {
+            // Se tem ID, busca no banco e preenche o formulário (Modo Edição)
+            this.usuario = em.find(Usuarios.class, idSelecionado);
+        } else {
+            // Se não tem ID, limpa o objeto (Modo Criação)
+            this.usuario = new Usuarios();
+        }
+    }
+
+    @Transactional
+    public void excluir(Usuarios u) {
+        try {
+            // 1. Buscamos a referência atualizada do objeto no banco pelo ID
+            Usuarios usuarioParaRemover = em.find(Usuarios.class, u.getId());
+
+            // 2. Removemos
+            em.remove(usuarioParaRemover);
+
+            // 3. Limpamos a lista para forçar o JSF a buscar os dados atualizados
+            listaUsuarios = null;
+
+            // Opcional: Adicionar mensagem de sucesso
+            // FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Removido com sucesso!"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 
     // -- GETTERS E SETTERS --
 
@@ -60,5 +95,13 @@ public class UsuarioBean implements Serializable {
 
     public void setUsuario(Usuarios usuario) {
         this.usuario = usuario;
+    }
+
+    public Long getIdSelecionado() {
+        return idSelecionado;
+    }
+
+    public void setIdSelecionado(Long idSelecionado) {
+        this.idSelecionado = idSelecionado;
     }
 }

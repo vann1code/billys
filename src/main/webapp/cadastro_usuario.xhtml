@@ -12,17 +12,13 @@
 
 <h:body>
     <h:form>
-
         <p:card style="width: 600px; margin: 50px auto;">
-
             <f:facet name="title">
                 Novo Cadastro
             </f:facet>
-
             <p:messages showDetail="true" closable="true">
                 <p:autoUpdate/>
             </p:messages>
-
             <h:panelGrid columns="2" cellpadding="5" style="width: 100%">
                 <p:outputLabel for="nome" value="Nome:"/>
                 <p:inputText id="nome" value="#{usuarioBean.usuario.nome}" required="true"
@@ -32,7 +28,6 @@
                 <p:inputText id="email" value="#{usuarioBean.usuario.email}" required="true"
                              requiredMessage="O e-mail é obrigatório" style="width: 100%"/>
             </h:panelGrid>
-
             <f:facet name="footer">
                 <p:commandButton value="Salvar" action="#{usuarioBean.salvar}"
                                  ajax="false"
@@ -42,7 +37,10 @@
                 <p:button value="Cancelar" outcome="usuario"
                           icon="pi pi-times" styleClass="ui-button-secondary"/>
             </f:facet>
-
+            <f:metadata>
+                <f:viewParam name="id" value="#{usuarioBean.idSelecionado}" />
+                <f:viewAction action="#{usuarioBean.carregarCadastro}" />
+            </f:metadata>
         </p:card>
     </h:form>
 </h:body>

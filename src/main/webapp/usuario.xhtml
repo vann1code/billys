@@ -5,45 +5,75 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui"><h:head>
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
     <title>Lista de Usuários</title>
 </h:head>
 
 <h:body>
-    <p:card style="width: 90%; margin: 20px auto;">
-        <f:facet name="header">
-            <div style="display: flex; justify-content: space-between; align-items: center;">
+    <h:form id="formLista">
 
-
+        <p:card style="width: 90%; margin: 20px auto;">
+            <f:facet name="header">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
                     <span>Usuários Cadastrados</span>
+                    <p:button value="Novo Usuário" outcome="cadastro_usuario" icon="pi pi-plus"/>
+                </div>
+            </f:facet>
 
-                    <p:button value="Novo Usuário" outcome="cadastro_usuario" icon="pi pi-plus" />
+            <p:messages showDetail="true" closable="true">
+                <p:autoUpdate/>
+            </p:messages>
 
-            </div>
-        </f:facet>
+            <p:dataTable value="#{usuarioBean.usuarios}" var="usuario"
+                         stripedRows="true" showGridlines="true" size="small">
 
-        <p:dataTable value="#{usuarioBean.usuarios}" var="usuario"
-                     stripedRows="true" showGridlines="true" size="small">
+                <p:column headerText="ID" style="width: 50px;">
+                    <h:outputText value="#{usuario.id}"/>
+                </p:column>
 
-            <p:column headerText="ID" style="width: 50px;">
-                <h:outputText value="#{usuario.id}"/>
-            </p:column>
+                <p:column headerText="Nome">
+                    <h:outputText value="#{usuario.nome}"/>
+                </p:column>
 
-            <p:column headerText="Nome">
-                <h:outputText value="#{usuario.nome}"/>
-            </p:column>
+                <p:column headerText="Email">
+                    <h:outputText value="#{usuario.email}"/>
+                </p:column>
 
-            <p:column headerText="Email">
-                <h:outputText value="#{usuario.email}"/>
-            </p:column>
-        </p:dataTable>
+                <p:column headerText="Ações" style="width: 120px; text-align: center;">
 
-        <f:facet name="footer">
-            <h:form>
+                    <p:button icon="pi pi-pencil"
+                              outcome="cadastro_usuario"
+                              styleClass="ui-button-warning rounded-button ui-button-flat"
+                              style="margin-right: 5px;">
+                        <f:param name="id" value="#{usuario.id}"/>
+                    </p:button>
+
+                    <p:commandButton icon="pi pi-trash"
+                                     action="#{usuarioBean.excluir(usuario)}"
+                                     process="@this"
+                                     update=":formLista"
+                                     styleClass="ui-button-danger rounded-button ui-button-flat">
+
+                        <p:confirm header="Confirmação" message="Tem certeza que deseja excluir?"
+                                   icon="pi pi-exclamation-triangle"/>
+                    </p:commandButton>
+                </p:column>
+
+            </p:dataTable>
+
+            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" responsive="true" width="350">
+                <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no ui-button-flat"/>
+                <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes"/>
+            </p:confirmDialog>
+
+            <f:facet name="footer">
                 <p:button value="Voltar ao Menu" outcome="menu" icon="pi pi-arrow-left"
                           styleClass="ui-button-secondary"/>
-            </h:form>
-        </f:facet>
-    </p:card>
+            </f:facet>
+        </p:card>
+
+    </h:form>
 </h:body>
 </html>
