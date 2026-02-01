@@ -53,8 +53,15 @@
         <dependency>
             <groupId>org.primefaces</groupId>
             <artifactId>primefaces</artifactId>
-            <version>15.0.0</version>
+            <version>14.0.0</version>
             <classifier>jakarta</classifier>
+        </dependency>
+
+        <dependency>
+            <groupId>org.webjars.npm</groupId>
+            <artifactId>primeflex</artifactId>
+            <version>3.3.1</version>
+            <scope>compile</scope>
         </dependency>
 
         <dependency>

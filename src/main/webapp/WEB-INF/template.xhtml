@@ -8,11 +8,40 @@
 
 <h:head>
     <title>Billys System</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <style>
-        body { background-color: #f8f9fa; margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; }
-        .layout-content { padding: 20px; max-width: 1200px; margin: 0 auto; }
-        .footer { text-align: center; margin-top: 50px; color: #6c757d; font-size: 0.9em; padding: 20px;}
+        /* Reset e Cores Dinâmicas */
+        body, html {
+            height: 100%;
+            margin: 0;
+            font-family: var(--font-family); /* Fonte nativa do tema */
+
+            /* A MÁGICA: Usa a cor de fundo do tema carregado */
+            background-color: var(--surface-ground);
+            color: var(--text-color);
+        }
+
+        .layout-content {
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 50px;
+            /* Cor do texto secundária do tema (cinza adaptável) */
+            color: var(--text-color-secondary);
+            font-size: 0.9em;
+            padding: 20px;
+        }
+
+        /* Ajuste extra para Cards ficarem bonitos no escuro */
+        .card {
+            background: var(--surface-card);
+            border: 1px solid var(--surface-border);
+            border-radius: 6px;
+        }
     </style>
 </h:head>
 
@@ -20,7 +49,7 @@
     <div class="card">
         <h:form>
             <p:menubar>
-                <p:menuitem value="Home" icon="pi pi-home" outcome="/menu" />
+                <p:menuitem value="Home" icon="pi pi-home" outcome="/menu"/>
 
                 <p:submenu label="Cadastros" icon="pi pi-fw pi-file">
                     <p:menuitem value="Usuários" icon="pi pi-fw pi-user" outcome="/usuario"/>
@@ -29,7 +58,7 @@
 
                 <p:divider layout="vertical"/>
 
-                <p:menuitem value="Sair" icon="pi pi-fw pi-power-off"/>
+                <p:menuitem value="Sair" action="#{loginBean.deslogar}" icon="pi pi-fw pi-power-off"/>
             </p:menubar>
         </h:form>
     </div>

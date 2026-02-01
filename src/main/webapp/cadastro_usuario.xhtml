@@ -32,6 +32,11 @@
                     <p:inputText id="email" value="#{usuarioBean.usuario.email}" required="true"
                                  requiredMessage="O e-mail é obrigatório" style="width: 100%"/>
 
+                    <p:outputLabel for="senha" value="Senha:" style="font-weight: bold"/>
+                    <p:password id="senha" value="#{usuarioBean.usuario.senha}"
+                                toggleMask="true" redisplay="true"
+                                required="true" requiredMessage="Senha é obrigatória" style="width: 100%"/>
+
                 </h:panelGrid>
 
                 <f:facet name="footer">
