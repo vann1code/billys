@@ -14,14 +14,14 @@
         <h:form>
             <p:card styleClass="login-card" style="padding: 1rem;">
 
+                <p:growl id="growl-login" showDetail="true" life="3000">
+                    <p:autoUpdate/>
+                </p:growl>
+
                 <div class="login-header">
                     <i class="pi pi-user" style="font-size: 3.5rem; color: var(--primary-color);"></i>
                     <h2>Acesso ao Sistema</h2>
                 </div>
-
-                <p:messages showDetail="true" closable="true">
-                    <p:autoUpdate/>
-                </p:messages>
 
                 <div class="input-group">
                     <p:outputLabel for="email" value="E-mail"/>

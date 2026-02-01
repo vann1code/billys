@@ -49,3 +49,4 @@ build/
 # Datasource local storage ignored files
 /dataSources/
 /dataSources.local.xml
+/${project.build.directory}/classes/META-INF/persistence.xml

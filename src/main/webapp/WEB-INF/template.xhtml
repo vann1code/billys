@@ -9,6 +9,7 @@
 <h:head>
     <title>Billys System</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" href="https://unpkg.com/primeflex@3.3.1/primeflex.min.css" />
     <h:outputStylesheet library="css" name="estilo.css"/>
 </h:head>
 
@@ -29,6 +30,10 @@
             </p:menubar>
         </h:form>
     </div>
+
+    <p:growl id="growl" showDetail="true" life="3000">
+        <p:autoUpdate/>
+    </p:growl>
 
     <div class="layout-content">
         <ui:insert name="corpo">
