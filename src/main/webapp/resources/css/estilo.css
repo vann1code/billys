@@ -1,0 +1,81 @@
+/* ==========================================================================
+   GLOBAL & TEMPLATE (Antigo CSS do template.xhtml)
+   ========================================================================== */
+body, html {
+    height: 100%;
+    margin: 0;
+    font-family: var(--font-family); /* Fonte nativa do tema */
+    background-color: var(--surface-ground); /* Fundo dinâmico (Saga/Arya) */
+    color: var(--text-color);
+}
+
+.layout-content {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.footer {
+    text-align: center;
+    margin-top: 50px;
+    color: var(--text-color-secondary);
+    font-size: 0.9em;
+    padding: 20px;
+}
+
+/* Ajuste genérico para cards no sistema */
+.card {
+    background: var(--surface-card);
+    border: 1px solid var(--surface-border);
+    border-radius: 6px;
+}
+
+/* ==========================================================================
+   TELA DE LOGIN (Antigo CSS do login.xhtml)
+   ========================================================================== */
+.login-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+.login-card {
+    width: 100%;
+    max-width: 600px; /* Largura aumentada conforme seu pedido */
+
+    background-color: var(--surface-card) !important;
+    color: var(--text-color) !important;
+    border: 1px solid var(--surface-border) !important;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+}
+
+.login-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.login-header h2 {
+    margin: 10px 0 0 0;
+    font-weight: 300;
+    color: var(--text-color);
+}
+
+.input-group {
+    margin-bottom: 1.5rem;
+    text-align: left;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--text-color-secondary);
+    font-size: 0.9rem;
+}
+
+.action-button {
+    width: 100%;
+    margin-top: 1rem;
+    height: 45px;
+    font-weight: bold !important;
+}

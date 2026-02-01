@@ -6,66 +6,7 @@
 
 <h:head>
     <title>Login - Billys System</title>
-    <style>
-        /* Reset para ocupar toda a altura */
-        body, html {
-            height: 100%;
-            margin: 0;
-            font-family: var(--font-family); /* Usa a fonte do tema */
-
-            /* AQUI ESTÁ O SEGREDO: */
-            /* Usa a cor de fundo definida pelo tema (Arya, Saga, etc) */
-            background-color: var(--surface-ground);
-            color: var(--text-color);
-        }
-
-        .login-container {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-        }
-
-        .login-card {
-            width: 100%;
-            max-width: 400px;
-
-            background-color: var(--surface-card) !important;
-            color: var(--text-color) !important;
-            border: 1px solid var(--surface-border) !important;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-        }
-
-        .login-header {
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-
-        .login-header h2 {
-            margin: 10px 0 0 0;
-            font-weight: 300;
-            color: var(--text-color);
-        }
-
-        .input-group {
-            margin-bottom: 1.5rem;
-            text-align: left;
-        }
-
-        .input-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            color: var(--text-color-secondary); /* Cinza adaptável */
-            font-size: 0.9rem;
-        }
-
-        .action-button {
-            width: 100%;
-            margin-top: 1rem;
-            height: 45px;
-            font-weight: bold !important;
-        }
-    </style>
+    <h:outputStylesheet library="css" name="estilo.css"/>
 </h:head>
 
 <h:body>
