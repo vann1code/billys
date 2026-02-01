@@ -30,8 +30,6 @@ public class LoginBean implements Serializable {
 
     public String logar() {
         try {
-            // Busca usuário por Email e Senha
-            // OBS: Em produção real, a senha estaria criptografada (Hash), mas vamos simplificar
             Usuarios user = em.createQuery("SELECT u FROM Usuarios u WHERE u.email = :email AND u.senha = :senha", Usuarios.class)
                     .setParameter("email", email)
                     .setParameter("senha", senha)
@@ -39,19 +37,23 @@ public class LoginBean implements Serializable {
 
             if (user != null) {
                 this.usuarioLogado = user;
-                // Redireciona para a home (menu.xhtml)
+
+                // --- ADICIONE ISSO AQUI ---
+                // Grava na sessão HTTP pro Filtro conseguir ler
+                FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("usuarioLogado", user);
+                // --------------------------
+
                 return "/menu?faces-redirect=true";
             }
         } catch (Exception e) {
-            // Se não achar (NoResultException) ou der erro
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Usuário ou senha inválidos!"));
         }
-        return null; // Fica na mesma tela
+        return null;
     }
 
     public String deslogar() {
-        // Mata a sessão inteira
+        // Mata a sessão (logout)
         FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
         return "/login?faces-redirect=true";
     }
