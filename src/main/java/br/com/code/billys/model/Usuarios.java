@@ -31,4 +31,8 @@ public class Usuarios {
     @Size(min = 4, message = "A senha deve ter no mínimo 4 caracteres")
     @Column(name = "senha")
     private String senha;
+
+    @Enumerated(EnumType.STRING) // Grava "ADMIN" ou "COMUM" no banco
+    @Column(nullable = false)
+    private Perfil perfil;
 }

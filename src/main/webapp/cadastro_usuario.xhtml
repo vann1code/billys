@@ -10,7 +10,7 @@
         <f:viewAction action="#{usuarioBean.carregarCadastro}" />
     </f:metadata>
 
-    <ui:define name="corpo">
+    <ui:define name="body">
 
         <h:form>
             <p:card style="max-width: 800px; margin: 0 auto;">
@@ -32,6 +32,13 @@
                     <p:password id="senha" value="#{usuarioBean.usuario.senha}"
                                 toggleMask="true" redisplay="true"
                                 required="true" requiredMessage="Senha é obrigatória" style="width: 100%"/>
+
+                    <p:outputLabel for="perfil" value="Perfil de Acesso" />
+                    <p:selectOneMenu id="perfil" value="#{usuarioBean.usuario.perfil}" required="true" style="width:100%">
+                        <f:selectItem itemLabel="Selecione..." itemValue="" />
+                        <f:selectItem itemLabel="Administrador" itemValue="ADMIN" />
+                        <f:selectItem itemLabel="Comum" itemValue="COMUM" />
+                    </p:selectOneMenu>
 
                 </h:panelGrid>
 

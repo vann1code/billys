@@ -9,7 +9,7 @@
 <h:head>
     <title>Billys System</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <link rel="stylesheet" href="https://unpkg.com/primeflex@3.3.1/primeflex.min.css" />
+    <link rel="stylesheet" href="https://unpkg.com/primeflex@3.3.1/primeflex.min.css"/>
     <h:outputStylesheet library="css" name="estilo.css"/>
 </h:head>
 
@@ -20,7 +20,8 @@
                 <p:menuitem value="Home" icon="pi pi-home" outcome="/menu"/>
 
                 <p:submenu label="Cadastros" icon="pi pi-fw pi-file">
-                    <p:menuitem value="Usuários" icon="pi pi-fw pi-user" outcome="/usuario"/>
+                    <p:menuitem value="Usuários" icon="pi pi-fw pi-user" outcome="/usuario"
+                                rendered="#{loginBean.usuarioLogado.perfil.toString() eq 'ADMIN'}"/>
                     <p:menuitem value="Produtos" icon="pi pi-fw pi-tags" outcome="/produto"/>
                 </p:submenu>
 
@@ -36,7 +37,7 @@
     </p:growl>
 
     <div class="layout-content">
-        <ui:insert name="corpo">
+        <ui:insert name="body">
             <p>Carregando conteúdo...</p>
         </ui:insert>
     </div>

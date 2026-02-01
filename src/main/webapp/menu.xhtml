@@ -5,7 +5,7 @@
                 xmlns:p="http://primefaces.org/ui"
                 template="/WEB-INF/template.xhtml">
 
-    <ui:define name="corpo">
+    <ui:define name="body">
 
         <div class="welcome-banner" style="margin-bottom: 30px;">
             <h1>Olá, <span style="color: #2196F3">#{loginBean.usuarioLogado.nome}</span>!</h1>
@@ -13,24 +13,25 @@
         </div>
 
         <div class="grid ui-fluid">
-
-            <div class="col-12 md:col-4">
-                <p:card style="margin-bottom: 2em; text-align: center; cursor: pointer;"
-                        styleClass="hover-card">
-                    <f:facet name="header">
-                        <i class="pi pi-users" style="font-size: 4rem; color: #2196F3; margin-top: 20px;"></i>
-                    </f:facet>
-                    <f:facet name="title">
-                        Gerenciar Usuários
-                    </f:facet>
-                    <f:facet name="subtitle">
-                        Cadastre, edite ou remova acessos
-                    </f:facet>
-                    <f:facet name="footer">
-                        <p:button value="Acessar" outcome="usuario" styleClass="ui-button-outlined" />
-                    </f:facet>
-                </p:card>
-            </div>
+            <h:panelGroup rendered="#{loginBean.usuarioLogado.perfil.toString() eq 'ADMIN'}">
+                <div class="col-12 md:col-4">
+                    <p:card style="margin-bottom: 2em; text-align: center; cursor: pointer;"
+                            styleClass="hover-card">
+                        <f:facet name="header">
+                            <i class="pi pi-users" style="font-size: 4rem; color: #2196F3; margin-top: 20px;"></i>
+                        </f:facet>
+                        <f:facet name="title">
+                            Gerenciar Usuários
+                        </f:facet>
+                        <f:facet name="subtitle">
+                            Cadastre, edite ou remova acessos
+                        </f:facet>
+                        <f:facet name="footer">
+                            <p:button value="Acessar" outcome="usuario" styleClass="ui-button-outlined"/>
+                        </f:facet>
+                    </p:card>
+                </div>
+            </h:panelGroup>
 
             <div class="col-12 md:col-4">
                 <p:card style="margin-bottom: 2em; text-align: center;">
@@ -44,7 +45,7 @@
                         Controle de estoque e preços
                     </f:facet>
                     <f:facet name="footer">
-                        <p:button value="Acessar" outcome="produto" styleClass="ui-button-outlined ui-button-warning" />
+                        <p:button value="Acessar" outcome="produto" styleClass="ui-button-outlined ui-button-warning"/>
                     </f:facet>
                 </p:card>
             </div>
@@ -61,7 +62,8 @@
                         Visualize métricas do sistema
                     </f:facet>
                     <f:facet name="footer">
-                        <p:button value="Visualizar" disabled="true" icon="pi pi-lock" styleClass="ui-button-outlined ui-button-success" />
+                        <p:button value="Visualizar" disabled="true" icon="pi pi-lock"
+                                  styleClass="ui-button-outlined ui-button-success"/>
                     </f:facet>
                 </p:card>
             </div>

@@ -5,7 +5,7 @@
                 xmlns:p="http://primefaces.org/ui"
                 template="/WEB-INF/template.xhtml">
 
-    <ui:define name="corpo">
+    <ui:define name="body">
 
         <h:form id="formProdutos">
             <p:card>
@@ -50,7 +50,9 @@
                             <f:param name="id" value="#{prod.id}" />
                         </p:button>
 
-                        <p:commandButton icon="pi pi-trash" action="#{produtoBean.excluir(prod)}"
+                        <p:commandButton icon="pi pi-trash"
+                                         rendered="#{loginBean.usuarioLogado.perfil.toString() eq 'ADMIN'}"
+                                         action="#{produtoBean.excluir(prod)}"
                                          process="@this" update=":formProdutos"
                                          styleClass="rounded-button ui-button-flat ui-button-danger">
                             <p:confirm header="Confirmação" message="Deseja excluir este produto?" icon="pi pi-exclamation-triangle"/>
