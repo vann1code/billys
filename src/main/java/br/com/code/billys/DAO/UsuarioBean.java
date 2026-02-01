@@ -1,17 +1,23 @@
 package br.com.code.billys.DAO;
 
 import br.com.code.billys.model.Usuarios;
+import jakarta.faces.application.FacesMessage;
+import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Named;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.io.Serializable;
 import java.util.List;
 
 @Named
 @ViewScoped // O Bean vive enquanto você estiver na mesma tela
+@Getter
+@Setter
 public class UsuarioBean implements Serializable {
 
     @PersistenceContext(unitName = "billyPU")
@@ -27,7 +33,7 @@ public class UsuarioBean implements Serializable {
 
     // -- AÇÕES --
 
-    // O método salvar agora serve pros dois (Insert e Update)
+    // O metodo salvar agora serve pros dois (Insert e Update)
     @Transactional
     public String salvar() {
         try {
@@ -73,35 +79,17 @@ public class UsuarioBean implements Serializable {
             listaUsuarios = null;
 
             // Opcional: Adicionar mensagem de sucesso
-            // FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Removido com sucesso!"));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Removido com sucesso!"));
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
 
-    // -- GETTERS E SETTERS --
-
     public List<Usuarios> getUsuarios() {
         if (listaUsuarios == null) {
             listaUsuarios = em.createQuery("SELECT u FROM Usuarios u", Usuarios.class).getResultList();
         }
         return listaUsuarios;
-    }
-
-    public Usuarios getUsuario() {
-        return usuario;
-    }
-
-    public void setUsuario(Usuarios usuario) {
-        this.usuario = usuario;
-    }
-
-    public Long getIdSelecionado() {
-        return idSelecionado;
-    }
-
-    public void setIdSelecionado(Long idSelecionado) {
-        this.idSelecionado = idSelecionado;
     }
 }
