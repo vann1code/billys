@@ -23,6 +23,8 @@
                     <p:menuitem value="Usuários" icon="pi pi-fw pi-user" outcome="/usuario"
                                 rendered="#{loginBean.usuarioLogado.perfil.toString() eq 'ADMIN'}"/>
                     <p:menuitem value="Produtos" icon="pi pi-fw pi-tags" outcome="/produto"/>
+                    <p:menuitem value="Pacientes" icon="pi pi-fw pi-heart" outcome="/paciente"/>
+                    <p:menuitem value="Nova Prescrição"  outcome="/prescricao"/>
                 </p:submenu>
 
                 <p:divider layout="vertical"/>

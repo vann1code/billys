@@ -1,4 +1,4 @@
-package br.com.code.billys.DAO;
+package br.com.code.billys.controller;
 
 import br.com.code.billys.model.Usuarios;
 import jakarta.enterprise.context.SessionScoped;
