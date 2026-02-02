@@ -1,0 +1,81 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="body">
+        <h:form id="formListaPrescricoes">
+            <p:card>
+                <f:facet name="title">Histórico de Prescrições</f:facet>
+
+                <div style="text-align: right; margin-bottom: 15px;">
+                    <p:button value="Nova Prescrição" outcome="cadastro_prescricao"
+                              icon="pi pi-plus" styleClass="ui-button-success" />
+                </div>
+
+                <p:dataTable value="#{prescricaoBean.historicoPrescricoes}" var="p"
+                             rows="10" paginator="true" paginatorPosition="bottom" size="small" stripedRows="true">
+
+                    <p:column headerText="Data" width="120" style="text-align: center">
+                        <h:outputText value="#{p.dataPrescricao}">
+                            <f:convertDateTime pattern="dd/MM/yyyy HH:mm" type="localDateTime"/>
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column headerText="Paciente" filterBy="#{p.paciente.nome}">
+                        <h:outputText value="#{p.paciente.nome}" style="font-weight: bold"/>
+                    </p:column>
+
+                    <p:column headerText="Médico" width="200">
+                        <p:tag value="#{p.medico.nome}" severity="info"/>
+                    </p:column>
+
+                    <p:column headerText="Qtd Itens" width="100" style="text-align: center">
+                        <h:outputText value="#{p.itens.size()}"/>
+                    </p:column>
+
+                    <p:column headerText="Ações" width="100" style="text-align: center">
+                        <p:commandButton icon="pi pi-search" update=":dialogDetalhe"
+                                         oncomplete="PF('dlgDetalhe').show()"
+                                         styleClass="rounded-button ui-button-flat ui-button-secondary"
+                                         title="Ver Medicamentos">
+                            <f:setPropertyActionListener value="#{p}" target="#{prescricaoBean.prescricaoSelecionada}" />
+                        </p:commandButton>
+                    </p:column>
+
+                </p:dataTable>
+            </p:card>
+        </h:form>
+
+        <p:dialog id="dialogDetalhe" header="Detalhes da Prescrição" widgetVar="dlgDetalhe"
+                  modal="true" showEffect="fade" hideEffect="fade" resizable="false" width="600">
+
+            <p:outputPanel id="painelDetalhe" rendered="#{not empty prescricaoBean.prescricaoSelecionada}">
+                <div class="field">
+                    <strong>Paciente:</strong> #{prescricaoBean.prescricaoSelecionada.paciente.nome}
+                </div>
+                <div class="field">
+                    <strong>Data:</strong>
+                    <h:outputText value="#{prescricaoBean.prescricaoSelecionada.dataPrescricao}">
+                        <f:convertDateTime pattern="dd/MM/yyyy 'às' HH:mm" type="localDateTime"/>
+                    </h:outputText>
+                </div>
+
+                <p:dataTable value="#{prescricaoBean.prescricaoSelecionada.itens}" var="item" size="small" style="margin-top: 10px">
+                    <p:column headerText="Medicamento">
+                        #{item.produto.nome}
+                    </p:column>
+                    <p:column headerText="Qtd" width="60">
+                        #{item.quantidade}
+                    </p:column>
+                    <p:column headerText="Posologia">
+                        #{item.posologia}
+                    </p:column>
+                </p:dataTable>
+            </p:outputPanel>
+        </p:dialog>
+
+    </ui:define>
+</ui:composition>

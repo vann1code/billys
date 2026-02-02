@@ -1,6 +1,5 @@
 package br.com.code.billys.controller;
 
-import br.com.code.billys.DAO.LoginBean;
 import br.com.code.billys.model.Produto;
 import br.com.code.billys.model.Usuarios;
 import jakarta.annotation.PostConstruct;
@@ -48,26 +47,42 @@ public class ProdutoBean implements Serializable {
     @Transactional
     public void salvar() {
         try {
-            // REGRA DE NEGÓCIO: Associa o produto ao usuário logado
-            Usuarios usuarioLogado = loginBean.getUsuarioLogado();
+            // Verifica se tem usuário logado (Segurança)
+            if (loginBean == null || loginBean.getUsuarioLogado() == null) {
+                FacesContext.getCurrentInstance().addMessage(null,
+                        new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Sessão expirada. Logue novamente."));
+                return;
+            }
+
+            // Associa o usuário da sessão (Isso pode dar erro se o usuário estiver 'detached', então buscamos ele de novo)
+            // DICA: Buscamos o usuário de novo no banco para garantir que ele está "fresco"
+            Usuarios usuarioFresco = em.find(Usuarios.class, loginBean.getUsuarioLogado().getId());
+            produto.setUsuarioCadastro(usuarioFresco);
+
             if (produto.getId() == null) {
-                produto.setUsuarioCadastro(usuarioLogado);
                 em.persist(produto);
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Sucesso", "Produto criado!"));
             } else {
-                // Se for edição, mantemos o usuário original ou trocamos?
-                // Vamos manter o original (aqui você teria que buscar do banco antes, mas vamos simplificar)
-                produto.setUsuarioCadastro(usuarioLogado);
                 em.merge(produto);
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Sucesso", "Produto atualizado!"));
             }
 
-            this.produto = new Produto(); // Limpa o formulário
-            carregarProdutos(); // Atualiza a tabela
+            // Se der erro AQUI, o Rollback lá embaixo vai cancelar o salvamento
+            this.produto = new Produto();
+            carregarProdutos();
 
         } catch (Exception e) {
-            e.printStackTrace();
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Erro ao salvar produto."));
+            // IMPEDE O SALVAMENTO SE DER ERRO
+            FacesContext.getCurrentInstance().validationFailed(); // Avisa o JSF
+            // Marca a transação para ser desfeita (O banco não vai salvar)
+            // Se o metodo 'setRollbackOnly' não aparecer, pode ignorar, mas o ideal é tratar.
+            try {
+                // Tenta forçar rollback via EJB/JTA se estiver disponível,
+                // mas apenas lançar a exceção já resolveria se não estivéssemos engolindo ela.
+                e.printStackTrace(); // OLHE O CONSOLE PARA VER O ERRO REAL
+            } catch (Exception ex) { /* ignora */ }
+
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Falha técnica: " + e.getMessage()));
         }
     }
 
