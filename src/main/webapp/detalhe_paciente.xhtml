@@ -1,0 +1,149 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <f:metadata>
+        <f:viewParam name="id" value="#{pacienteBean.paciente.id}" />
+        <f:viewAction action="#{pacienteBean.carregarCadastro}" />
+    </f:metadata>
+
+    <ui:define name="body">
+
+        <style>
+            .custom-chronoline.ui-chronoline {
+                width: 100%;
+            }
+            .custom-chronoline .ui-chronoline-event-content {
+                flex: 1 1 auto !important;
+                width: 100% !important;
+                padding-left: 1rem !important;
+            }
+            .custom-chronoline .ui-chronoline-event-content .ui-card {
+                width: 100% !important;
+                margin: 0 !important;
+            }
+            .dado-label { color: #888; font-size: 0.9rem; display: block; }
+            .dado-valor { font-size: 1.1rem; font-weight: 500; margin-bottom: 10px; display: block; }
+        </style>
+
+        <p:button outcome="paciente" icon="pi pi-arrow-left" value="Voltar"
+                  styleClass="ui-button-text mb-3"/>
+
+        <div class="flex flex-column md:flex-row gap-4">
+
+            <div class="w-full md:w-20rem flex-shrink-0">
+                <p:card style="text-align: center; border-top: 4px solid #2196F3; height: 100%">
+
+                    <div class="flex justify-content-center mb-3 mt-2">
+                        <p:avatar label="#{pacienteBean.paciente.nome.substring(0,1)}"
+                                  size="xlarge" shape="circle"
+                                  style="width: 100px; height: 100px; font-size: 3rem; background-color: #2196F3; color: white"/>
+                    </div>
+
+                    <h2 style="margin: 0; font-size: 1.8rem; word-break: break-word;">#{pacienteBean.paciente.nome}</h2>
+                    <p class="text-secondary" style="font-size: 1.1rem;">CPF: #{pacienteBean.paciente.cpf}</p>
+
+                    <p:divider />
+
+                    <div style="text-align: left; padding: 0 5px;">
+                        <span class="dado-label"><i class="pi pi-calendar mr-1"/> Nascimento</span>
+                        <span class="dado-valor">
+                            <h:outputText value="#{pacienteBean.paciente.dataNascimento}">
+                                <f:convertDateTime pattern="dd/MM/yyyy" type="localDateTime"/>
+                            </h:outputText>
+                        </span>
+
+                        <span class="dado-label"><i class="pi pi-phone mr-1"/> Telefone</span>
+                        <span class="dado-valor">#{pacienteBean.paciente.telefone}</span>
+
+                        <span class="dado-label"><i class="pi pi-envelope mr-1"/> Email</span>
+                        <span class="dado-valor" style="word-break: break-all;">#{pacienteBean.paciente.email}</span>
+
+                        <p:divider />
+
+                        <span class="dado-label"><i class="pi pi-map-marker mr-1"/> Endereço</span>
+                        <span class="dado-valor">
+                            #{pacienteBean.paciente.logradouro}, #{pacienteBean.paciente.numero}<br/>
+                            <small class="text-secondary">#{pacienteBean.paciente.bairro} - #{pacienteBean.paciente.cidade}</small>
+                        </span>
+                    </div>
+
+                    <f:facet name="footer">
+                        <p:button value="Editar" outcome="cadastro_paciente" icon="pi pi-pencil"
+                                  styleClass="ui-button-outlined w-full">
+                            <f:param name="id" value="#{pacienteBean.paciente.id}" />
+                        </p:button>
+                    </f:facet>
+                </p:card>
+            </div>
+
+            <div class="flex-grow-1">
+
+                <h3 style="margin-top: 0; margin-left: 10px; color: #aaa">
+                    <i class="pi pi-history mr-2"/>Histórico Clínico
+                </h3>
+
+                <p:chronoline value="#{pacienteBean.historicoDoPaciente}" var="evento"
+                              align="left" styleClass="custom-chronoline">
+
+                    <f:facet name="marker">
+                        <span class="flex w-1rem h-1rem border-circle align-items-center justify-content-center"
+                              style="background-color: #2196F3; border: 3px solid var(--surface-d); box-shadow: 0 0 0 2px #2196F3;">
+                        </span>
+                    </f:facet>
+
+                    <p:card style="background: var(--surface-b); border-left: 4px solid #2196F3;">
+
+                        <div class="flex align-items-center justify-content-between flex-wrap gap-2">
+                            <div>
+                                <small class="text-secondary font-bold" style="text-transform: uppercase;">
+                                    <h:outputText value="#{evento.dataPrescricao}">
+                                        <f:convertDateTime pattern="dd 'de' MMMM 'de' yyyy" locale="pt_BR" type="localDateTime"/>
+                                    </h:outputText>
+                                </small>
+                                <div class="text-xl font-bold mt-1">
+                                    Atendimento com Dr(a). #{evento.medico.nome}
+                                </div>
+                            </div>
+
+                            <p:button icon="pi pi-print" value="2ª Via"
+                                      styleClass="ui-button-secondary ui-button-outlined ui-button-sm" target="_blank">
+                                <f:param name="id" value="#{evento.id}" />
+                            </p:button>
+                        </div>
+
+                        <p:divider />
+
+                        <div class="grid">
+                            <ui:repeat value="#{evento.itens}" var="item">
+                                <div class="col-12 md:col-6 lg:col-4">
+                                    <div style="background-color: var(--surface-c); padding: 10px; border-radius: 6px; height: 100%">
+                                        <div style="font-weight: bold; font-size: 1.1rem; color: #2196F3">
+                                            #{item.produto.nome} <span class="text-secondary text-sm">(#{item.quantidade} un)</span>
+                                        </div>
+                                        <div style="font-style: italic; color: #aaa; margin-top: 5px;">
+                                            "#{item.posologia}"
+                                        </div>
+                                    </div>
+                                </div>
+                            </ui:repeat>
+                        </div>
+                    </p:card>
+
+                </p:chronoline>
+
+                <h:panelGroup rendered="#{empty pacienteBean.historicoDoPaciente}">
+                    <div class="flex flex-column align-items-center justify-content-center py-6" style="background: var(--surface-b); border-radius: 10px">
+                        <i class="pi pi-folder-open text-600 text-5xl mb-3"/>
+                        <span class="text-600 text-xl">Nenhum histórico encontrado.</span>
+                    </div>
+                </h:panelGroup>
+
+            </div>
+        </div>
+
+    </ui:define>
+</ui:composition>

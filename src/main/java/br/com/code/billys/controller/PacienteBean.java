@@ -1,6 +1,7 @@
 package br.com.code.billys.controller;
 
 import br.com.code.billys.model.Paciente;
+import br.com.code.billys.model.Prescricao;
 import jakarta.annotation.PostConstruct;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
@@ -26,6 +27,8 @@ public class PacienteBean implements Serializable {
 
     private Paciente paciente;
     private List<Paciente> pacientes;
+
+    private List<Prescricao> historicoDoPaciente;
 
     @PostConstruct
     public void init() {
@@ -60,10 +63,17 @@ public class PacienteBean implements Serializable {
         }
     }
 
-    // Carregar na edição
+    // chamado ao abrir a tela de edição
     public void carregarCadastro() {
         if (paciente.getId() != null) {
             this.paciente = em.find(Paciente.class, paciente.getId());
+
+            // BUSCA O HISTÓRICO DESTE PACIENTE ESPECÍFICO
+            this.historicoDoPaciente = em.createQuery(
+                            "SELECT p FROM Prescricao p JOIN FETCH p.itens JOIN FETCH p.medico " +
+                                    "WHERE p.paciente.id = :idPac ORDER BY p.dataPrescricao DESC", Prescricao.class)
+                    .setParameter("idPac", paciente.getId())
+                    .getResultList();
         }
     }
 

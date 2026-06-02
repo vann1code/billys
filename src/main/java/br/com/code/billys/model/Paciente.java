@@ -8,7 +8,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter
@@ -32,7 +31,7 @@ public class Paciente implements Serializable {
     @NotNull(message = "A data de nascimento é obrigatória")
     @Past(message = "A data deve ser no passado")
     @Column(name = "data_nascimento", nullable = false)
-    private LocalDate dataNascimento;
+    private LocalDateTime dataNascimento;
 
     @NotBlank(message = "O telefone é obrigatório")
     private String telefone;

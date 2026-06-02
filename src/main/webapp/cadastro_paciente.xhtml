@@ -6,93 +6,129 @@
                 template="/WEB-INF/template.xhtml">
 
     <f:metadata>
-        <f:viewParam name="id" value="#{pacienteBean.paciente.id}" />
-        <f:viewAction action="#{pacienteBean.carregarCadastro}" />
+        <f:viewParam name="id" value="#{pacienteBean.paciente.id}"/>
+        <f:viewAction action="#{pacienteBean.carregarCadastro}"/>
     </f:metadata>
 
     <ui:define name="body">
         <h:form>
-            <p:card style="max-width: 800px; margin: 0 auto;">
-                <f:facet name="title">
-                    #{pacienteBean.paciente.id == null ? 'Novo Paciente' : 'Editar Paciente'}
-                </f:facet>
+            <p:card style="max-width: 1000px; margin: 0 auto;"> <f:facet name="title">
+                <i class="pi pi-user" style="margin-right: 10px"/>
+                #{pacienteBean.paciente.id == null ? 'Novo Paciente' : pacienteBean.paciente.nome}
+            </f:facet>
 
-                <div class="ui-fluid formgrid grid">
+                <p:tabView>
+                    <p:tab title="Dados Pessoais">
+                        <div class="ui-fluid formgrid grid">
+                            <p:fieldset legend="Dados Pessoais" style="width: 100%; margin-bottom: 20px;">
+                                <div class="grid">
+                                    <div class="field col-12">
+                                        <p:outputLabel for="nome" value="Nome Completo"/>
+                                        <p:inputText id="nome" value="#{pacienteBean.paciente.nome}" required="true"/>
+                                    </div>
 
-                    <p:fieldset legend="Dados Pessoais" style="width: 100%; margin-bottom: 20px;">
-                        <div class="grid"> <div class="field col-12">
-                            <p:outputLabel for="nome" value="Nome Completo" />
-                            <p:inputText id="nome" value="#{pacienteBean.paciente.nome}" required="true"/>
+                                    <div class="field col-12 md:col-6">
+                                        <p:outputLabel for="cpf" value="CPF"/>
+                                        <p:inputMask id="cpf" value="#{pacienteBean.paciente.cpf}" mask="999.999.999-99"
+                                                     required="true"/>
+                                    </div>
+
+                                    <div class="field col-12 md:col-6">
+                                        <p:outputLabel for="nasc" value="Data de Nascimento"/>
+                                        <p:datePicker id="nasc" value="#{pacienteBean.paciente.dataNascimento}"
+                                                      pattern="dd/MM/yyyy" showIcon="true" monthNavigator="true"
+                                                      yearNavigator="true" yearRange="1900:2030" required="true"/>
+                                    </div>
+
+                                    <div class="field col-12 md:col-6">
+                                        <p:outputLabel for="tel" value="Telefone/Celular"/>
+                                        <p:inputMask id="tel" value="#{pacienteBean.paciente.telefone}"
+                                                     mask="(99) 99999-9999"/>
+                                    </div>
+
+                                    <div class="field col-12 md:col-6">
+                                        <p:outputLabel for="email" value="E-mail"/>
+                                        <p:inputText id="email" value="#{pacienteBean.paciente.email}"/>
+                                    </div>
+                                </div>
+                            </p:fieldset>
+
+                            <p:fieldset legend="Endereço" style="width: 100%;">
+                                <div class="grid">
+
+                                    <div class="field col-12 md:col-4">
+                                        <p:outputLabel for="cep" value="CEP"/>
+                                        <p:inputMask id="cep" value="#{pacienteBean.paciente.cep}" mask="99999-999"/>
+                                    </div>
+
+                                    <div class="field col-12 md:col-6">
+                                        <p:outputLabel for="cidade" value="Cidade"/>
+                                        <p:inputText id="cidade" value="#{pacienteBean.paciente.cidade}"/>
+                                    </div>
+
+                                    <div class="field col-12 md:col-2">
+                                        <p:outputLabel for="uf" value="UF"/>
+                                        <p:inputText id="uf" value="#{pacienteBean.paciente.uf}" maxlength="2"/>
+                                    </div>
+
+                                    <div class="field col-12 md:col-10">
+                                        <p:outputLabel for="rua" value="Logradouro (Rua/Av)"/>
+                                        <p:inputText id="rua" value="#{pacienteBean.paciente.logradouro}"/>
+                                    </div>
+
+                                    <div class="field col-12 md:col-2">
+                                        <p:outputLabel for="num" value="Número"/>
+                                        <p:inputText id="num" value="#{pacienteBean.paciente.numero}"/>
+                                    </div>
+
+                                    <div class="field col-12">
+                                        <p:outputLabel for="bairro" value="Bairro"/>
+                                        <p:inputText id="bairro" value="#{pacienteBean.paciente.bairro}"/>
+                                    </div>
+                                </div>
+                            </p:fieldset>
                         </div>
 
-                            <div class="field col-12 md:col-6">
-                                <p:outputLabel for="cpf" value="CPF" />
-                                <p:inputMask id="cpf" value="#{pacienteBean.paciente.cpf}" mask="999.999.999-99" required="true"/>
-                            </div>
+                        <div style="margin-top: 15px;">
+                            <p:commandButton value="Salvar" action="#{pacienteBean.salvar}"
+                                             icon="pi pi-check" styleClass="ui-button-success"
+                                             style="margin-right: 10px"/>
 
-                            <div class="field col-12 md:col-6">
-                                <p:outputLabel for="nasc" value="Data de Nascimento" />
-                                <p:datePicker id="nasc" value="#{pacienteBean.paciente.dataNascimento}"
-                                              pattern="dd/MM/yyyy" showIcon="true" monthNavigator="true" yearNavigator="true" yearRange="1900:2030" required="true"/>
-                            </div>
-
-                            <div class="field col-12 md:col-6">
-                                <p:outputLabel for="tel" value="Telefone/Celular" />
-                                <p:inputMask id="tel" value="#{pacienteBean.paciente.telefone}" mask="(99) 99999-9999"/>
-                            </div>
-
-                            <div class="field col-12 md:col-6">
-                                <p:outputLabel for="email" value="E-mail" />
-                                <p:inputText id="email" value="#{pacienteBean.paciente.email}" />
-                            </div>
+                            <p:button value="Cancelar" outcome="paciente" icon="pi pi-times" styleClass="ui-button-secondary"/>
                         </div>
-                    </p:fieldset>
+                    </p:tab>
 
-                    <p:fieldset legend="Endereço" style="width: 100%;">
-                        <div class="grid">
+                    <p:tab title="Histórico Clínico" disabled="#{pacienteBean.paciente.id == null}">
 
-                            <div class="field col-12 md:col-4">
-                                <p:outputLabel for="cep" value="CEP" />
-                                <p:inputMask id="cep" value="#{pacienteBean.paciente.cep}" mask="99999-999"/>
-                            </div>
+                        <p:dataTable value="#{pacienteBean.historicoDoPaciente}" var="hist"
+                                     emptyMessage="Nenhum histórico médico encontrado para este paciente."
+                                     size="small" stripedRows="true">
 
-                            <div class="field col-12 md:col-6">
-                                <p:outputLabel for="cidade" value="Cidade" />
-                                <p:inputText id="cidade" value="#{pacienteBean.paciente.cidade}" />
-                            </div>
+                            <p:column headerText="Data" width="100">
+                                <h:outputText value="#{hist.dataPrescricao}">
+                                    <f:convertDateTime pattern="dd/MM/yyyy HH:mm" type="localDateTime"/>
+                                </h:outputText>
+                            </p:column>
 
-                            <div class="field col-12 md:col-2">
-                                <p:outputLabel for="uf" value="UF" />
-                                <p:inputText id="uf" value="#{pacienteBean.paciente.uf}" maxlength="2"/>
-                            </div>
+                            <p:column headerText="Médico Responsável">
+                                <p:tag value="#{hist.medico.nome}" rounded="true" styleClass="mr-2"/>
+                            </p:column>
 
-                            <div class="field col-12 md:col-10">
-                                <p:outputLabel for="rua" value="Logradouro (Rua/Av)" />
-                                <p:inputText id="rua" value="#{pacienteBean.paciente.logradouro}" />
-                            </div>
+                            <p:column headerText="Medicamentos Prescritos">
+                                <ui:repeat value="#{hist.itens}" var="it">
+                                    <div style="margin-bottom: 4px;">
+                                        <i class="pi pi-circle-fill"
+                                           style="font-size: 6px; margin-right: 5px; vertical-align: middle"/>
+                                        <strong>#{it.produto.nome}</strong>
+                                        <span style="color: #666; font-size: 0.9em;">(#{it.quantidade} un) - #{it.posologia}</span>
+                                    </div>
+                                </ui:repeat>
+                            </p:column>
 
-                            <div class="field col-12 md:col-2">
-                                <p:outputLabel for="num" value="Número" />
-                                <p:inputText id="num" value="#{pacienteBean.paciente.numero}" />
-                            </div>
+                        </p:dataTable>
+                    </p:tab>
 
-                            <div class="field col-12">
-                                <p:outputLabel for="bairro" value="Bairro" />
-                                <p:inputText id="bairro" value="#{pacienteBean.paciente.bairro}" />
-                            </div>
-                        </div>
-                    </p:fieldset>
-
-                </div>
-
-                <f:facet name="footer">
-                    <p:commandButton value="Salvar" action="#{pacienteBean.salvar}"
-                                     icon="pi pi-check" styleClass="ui-button-success"
-                                     style="margin-right: 10px"/>
-
-                    <p:button value="Cancelar" outcome="paciente"
-                              icon="pi pi-times" styleClass="ui-button-secondary"/>
-                </f:facet>
+                </p:tabView>
             </p:card>
         </h:form>
     </ui:define>

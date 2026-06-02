@@ -42,7 +42,14 @@
                         <h:outputText value="#{p.telefone}"/>
                     </p:column>
 
-                    <p:column headerText="Ações" width="120" style="text-align: center;">
+                    <p:column headerText="Ações" width="160" style="text-align: center;">
+
+                        <p:button icon="pi pi-eye" outcome="detalhe_paciente"
+                                  styleClass="rounded-button ui-button-flat ui-button-info"
+                                  title="Ver Prontuário" style="margin-right: 5px">
+                            <f:param name="id" value="#{p.id}" />
+                        </p:button>
+
                         <p:button icon="pi pi-pencil" outcome="cadastro_paciente"
                                   styleClass="rounded-button ui-button-flat ui-button-warning"
                                   style="margin-right: 5px">

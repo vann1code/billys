@@ -55,7 +55,7 @@ public class PrescricaoBean implements Serializable {
     public void carregarListas() {
         // Buscamos todos para preencher os <p:selectOneMenu>
         this.listaPacientes = em.createQuery("SELECT p FROM Paciente p ORDER BY p.nome", Paciente.class).getResultList();
-        this.listaProdutos = em.createQuery("SELECT p FROM Produto p WHERE p.estoque > 0 ORDER BY p.nome", Produto.class).getResultList();
+        this.listaProdutos = em.createQuery("SELECT p FROM Produto p ORDER BY p.nome", Produto.class).getResultList();
     }
 
     public void carregarHistorico() {
@@ -105,7 +105,7 @@ public class PrescricaoBean implements Serializable {
     @Transactional
     public String salvar() {
         try {
-            // 1. Validações Básicas
+            // 1. Validações Básicas (Mantém: Paciente e Itens obrigatórios)
             if (pacienteIdSelecionado == null) {
                 mensagemErro("Selecione o paciente.");
                 return null;
@@ -115,28 +115,20 @@ public class PrescricaoBean implements Serializable {
                 return null;
             }
 
-            // 2. VALIDAÇÃO DE ESTOQUE (A novidade é aqui!)
-            // Antes de mexer em qualquer coisa, verificamos se tem estoque para TODOS os itens
-            for (ItemPrescricao item : prescricao.getItens()) {
-                Produto produtoDoBanco = em.find(Produto.class, item.getProduto().getId());
-
-                if (produtoDoBanco.getEstoque() < item.getQuantidade()) {
-                    mensagemErro("Estoque insuficiente para o medicamento: " + produtoDoBanco.getNome() +
-                            ". Disponível: " + produtoDoBanco.getEstoque());
-                    return null; // Para tudo e avisa o usuário
-                }
-            }
-
-            // 3. Vincula dados
+            // 2. Vincula dados (Paciente e Médico)
             Paciente paciente = em.find(Paciente.class, pacienteIdSelecionado);
             prescricao.setPaciente(paciente);
 
             Usuarios medico = loginBean.getUsuarioLogado();
-            medico = em.find(Usuarios.class, medico.getId());
-            prescricao.setMedico(medico);
+            if (medico != null && medico.getId() != null) {
+                medico = em.find(Usuarios.class, medico.getId());
+                prescricao.setMedico(medico);
+            }
 
-            // 4. Se passou na validação do passo 2, agora sim baixamos o estoque e salvamos
-            atualizarEstoque(); // Agora é seguro chamar
+            // 3. Salva APENAS a prescrição
+            // REMOVI A LINHA: atualizarEstoque();
+            // Agora ele salva a receita, mas o Produto continua com a mesma quantidade no banco.
+
             em.persist(prescricao);
 
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Sucesso", "Prescrição realizada!"));
@@ -147,15 +139,6 @@ public class PrescricaoBean implements Serializable {
             e.printStackTrace();
             mensagemErro("Erro técnico ao salvar prescrição: " + e.getMessage());
             return null;
-        }
-    }
-
-    // Metodo auxiliar (agora só executa se tiver certeza que tem estoque)
-    private void atualizarEstoque() {
-        for (ItemPrescricao it : prescricao.getItens()) {
-            Produto p = em.find(Produto.class, it.getProduto().getId());
-            p.setEstoque(p.getEstoque() - it.getQuantidade());
-            em.merge(p);
         }
     }
 
